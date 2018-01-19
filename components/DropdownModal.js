@@ -59,11 +59,12 @@ export default class DropdownModal extends React.Component {
     const { keyword } = this.state;
     return (
       <TouchableWithoutFeedback onPress={this.props.closeModal}>
-        <View style={{ zIndex: 1000, backgroundColor: 'transparent', position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, height: Dimensions.get('window').height }}>
-          <View style={[styles.container, styles.boxShadow]}>
+        <View style={styles.modalContainer}>
+          <View style={[styles.modalContent, styles.boxShadow]}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <TextInput
                 ref={ref => this._search = ref}
+                placeholder="Search..."
                 style={{ width: '100%', height: 45, backgroundColor: '#eee', paddingLeft: 15, fontWeight: '600', fontSize: 18, borderRadius: 25, padding: 10 }}
                 onChangeText={this.onChangeText}
                 value={this.state.keyword}
@@ -100,7 +101,17 @@ export default class DropdownModal extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  modalContainer: {
+    zIndex: 1000,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: Dimensions.get('window').height
+  },
+  modalContent: {
     position: 'absolute',
     backgroundColor: '#fff',
     padding: 18,
