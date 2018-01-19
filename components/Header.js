@@ -1,13 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import DropdownModal from './DropdownModal';
 import Icon from './Icon';
 
 export default class Header extends React.Component {
+  state = {
+    modalShown: false
+  }
+  closeModal = () => {
+    this.setState({ modalShown: false });
+  }
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modalShown: !prevState.modalShown
+    }));
+  }
   render() {
+    const { modalShown } = this.state;
     return (
       <View style={styles.container}>
-        <DropdownModal />
+        {modalShown &&
+          <DropdownModal closeModal={this.closeModal} />
+        }
         <View style={[styles.boxShadow, styles.leftNav]}>
           <Icon
             source={require('./../assets/icons8-GPS.png')}
@@ -18,13 +32,22 @@ export default class Header extends React.Component {
         </View>
         <View style={[styles.boxShadow, styles.rightNav]}>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Icon
-              source={require('./../assets/icons8-Search.png')}
-              resizeMode="contain"
-              style={{
-                width: 21, height: 21
-              }} />
-            <View style={styles.arrow} />
+            <TouchableOpacity
+              hitSlop={{
+                top: 20,
+                bottom: 20,
+                left: 30,
+                right: 30
+              }}
+              onPress={this.toggleModal}>
+              <Icon
+                source={require('./../assets/icons8-Search.png')}
+                resizeMode="contain"
+                style={{
+                  width: 21, height: 21
+                }} />
+            </TouchableOpacity>
+            {modalShown && <View style={styles.arrow} />}
           </View>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Icon
@@ -62,6 +85,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     borderColor: '#ccc',
+    borderTopWidth: 0,
     borderBottomWidth: 0,
     shadowColor: '#666',
     shadowOffset: { width: 0, height: 1 },
@@ -90,6 +114,7 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   arrow: {
+    zIndex: 10000,
     position: 'absolute',
     top: 46,
     width: 0,
