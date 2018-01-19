@@ -31,7 +31,7 @@ export default class Header extends React.Component {
             }} />
         </View>
         <View style={[styles.boxShadow, styles.rightNav]}>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderColor: '#eee' }}>
             <TouchableOpacity
               hitSlop={{
                 top: 20,
@@ -49,7 +49,7 @@ export default class Header extends React.Component {
             </TouchableOpacity>
             {modalShown && <View style={styles.arrow} />}
           </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderColor: '#eee' }}>
             <Icon
               source={require('./../assets/icons8-Calendar.png')}
               resizeMode="contain"
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   rightNav: {
+    padding: 5,
     height: 44,
     borderWidth: 1,
     borderColor: '#aaa',
