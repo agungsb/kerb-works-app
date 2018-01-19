@@ -1,5 +1,7 @@
 # React Native Developer Test: Build a simple menu and modal with a usable search box
 
+![alt text](https://raw.githubusercontent.com/agungsb/kerb-works-app/master/assets/example.png)
+
 ## Story
 
 As a user I want to tap the search icon and select a city from a list of cities. I would like to input text to filter the list and make selection easier. I would like to clear the text input.
