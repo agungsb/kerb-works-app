@@ -10,10 +10,6 @@ export default class DropdownModal extends React.Component {
       "Brisbane, Australia",
       "Sydney, Australia",
       "Perth, Australia",
-      "Wellington, New Zealand",
-      "Brisbane, Australia",
-      "Sydney, Australia",
-      "Perth, Australia",
       "Wellington, New Zealand"
     ],
     results: []
