@@ -1,27 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import DropdownModal from './DropdownModal';
+import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from './Icon';
 
 export default class Header extends React.Component {
   state = {
-    modalShown: false
-  }
-  closeModal = () => {
-    this.setState({ modalShown: false });
-  }
-  toggleModal = () => {
-    this.setState(prevState => ({
-      modalShown: !prevState.modalShown
-    }));
+    modalShown: this.props.modalShown
   }
   render() {
-    const { modalShown } = this.state;
+    const { modalShown, toggleModal } = this.props;
     return (
       <View style={styles.container}>
-        {modalShown &&
-          <DropdownModal closeModal={this.closeModal} />
-        }
         <View style={[styles.boxShadow, styles.leftNav]}>
           <Icon
             source={require('./../assets/icons8-GPS.png')}
@@ -31,7 +19,7 @@ export default class Header extends React.Component {
             }} />
         </View>
         <View style={[styles.boxShadow, styles.rightNav]}>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderColor: '#eee' }}>
+          <View style={[styles.menu, { borderRightWidth: 1, borderColor: '#eee' }]}>
             <TouchableOpacity
               hitSlop={{
                 top: 20,
@@ -39,7 +27,7 @@ export default class Header extends React.Component {
                 left: 30,
                 right: 30
               }}
-              onPress={this.toggleModal}>
+              onPress={toggleModal}>
               <Icon
                 source={require('./../assets/icons8-Search.png')}
                 resizeMode="contain"
@@ -47,9 +35,8 @@ export default class Header extends React.Component {
                   width: 21, height: 21
                 }} />
             </TouchableOpacity>
-            {modalShown && <View style={styles.arrow} />}
           </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderColor: '#eee' }}>
+          <View style={[styles.menu, { borderRightWidth: 1, borderColor: '#eee' }]}>
             <Icon
               source={require('./../assets/icons8-Calendar.png')}
               resizeMode="contain"
@@ -57,7 +44,7 @@ export default class Header extends React.Component {
                 width: 23, height: 23
               }} />
           </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.menu}>
             <Icon
               source={require('./../assets/icons8-Filter.png')}
               resizeMode="contain"
@@ -82,20 +69,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   boxShadow: {
-    borderWidth: 1,
-    borderRadius: 1,
+    borderWidth: Platform.OS === 'android' ? 0 : 1,
+    borderRadius: 20,
     borderColor: '#ccc',
     borderTopWidth: 0,
     borderBottomWidth: 0,
     shadowColor: '#666',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 1,
-    elevation: 1,
+    shadowOpacity: Platform.OS === 'android' ? 0 : 0.8,
+    shadowRadius: Platform.OS === 'android' ? 0 : 1,
+    elevation: Platform.OS === 'android' ? 0 : 1,
   },
   leftNav: {
-    borderWidth: 1,
-    borderColor: '#aaa',
     height: 44,
     width: 44,
     borderRadius: 22,
@@ -106,29 +91,16 @@ const styles = StyleSheet.create({
   rightNav: {
     padding: 5,
     height: 44,
-    borderWidth: 1,
-    borderColor: '#aaa',
     borderRadius: 20,
     flex: 1,
     flexDirection: 'row',
     backgroundColor: '#FFF',
-    marginLeft: 10
+    marginLeft: 10,
+    justifyContent: 'space-between'
   },
-  arrow: {
-    zIndex: 10000,
-    position: 'absolute',
-    top: 46,
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderTopWidth: 0,
-    borderRightWidth: 30,
-    borderBottomWidth: 30,
-    borderLeftWidth: 30,
-    borderTopColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: '#FFF',
-    borderLeftColor: 'transparent',
+  menu: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });

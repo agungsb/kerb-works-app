@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, FlatList, StyleSheet, Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native';
 import Icon from './Icon';
 import { debounce } from './../utils/DebounceThrottle';
 
@@ -60,12 +60,23 @@ export default class DropdownModal extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={this.props.closeModal}>
         <View style={styles.modalContainer}>
+          <View style={{ paddingHorizontal: 10, flex: 1, position: 'absolute', top: 45, flexDirection: 'row' }}>
+            <View style={styles.leftNav} />
+            <View style={styles.rightNav}>
+              <View style={styles.arrowWrapper}>
+                <View style={styles.arrow} />
+              </View>
+              <View style={styles.arrowWrapper} />
+              <View style={styles.arrowWrapper} />
+            </View>
+          </View>
           <View style={[styles.modalContent, styles.boxShadow]}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <TextInput
+                underlineColorAndroid="transparent"
                 ref={ref => this._search = ref}
                 placeholder="Search..."
-                style={{ width: '100%', height: 45, backgroundColor: '#eee', paddingLeft: 15, fontWeight: '600', fontSize: 18, borderRadius: 25, padding: 10 }}
+                style={styles.textInput}
                 onChangeText={this.onChangeText}
                 value={this.state.keyword}
               />
@@ -105,7 +116,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: 0,
+    top: 10,
     bottom: 0,
     left: 0,
     right: 0,
@@ -119,16 +130,60 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
   },
+  textInput: {
+    width: '100%',
+    height: 45,
+    backgroundColor: '#eee',
+    paddingLeft: 15,
+    fontWeight: Platform.OS === 'android' ? '200' : '500',
+    fontSize: 18,
+    borderRadius: 25,
+    padding: 10
+  },
   boxShadow: {
-    borderWidth: 1,
+    borderWidth: Platform.OS === 'android' ? 0 : 1,
     borderRadius: 20,
     borderColor: '#ccc',
     borderTopWidth: 0,
     borderBottomWidth: 0,
     shadowColor: '#666',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 1,
-    elevation: 1,
-  }
+    shadowOpacity: Platform.OS === 'android' ? 0 : 0.8,
+    shadowRadius: Platform.OS === 'android' ? 0 : 1,
+    elevation: Platform.OS === 'android' ? 0 : 1,
+  },
+  arrow: {
+    zIndex: 10000,
+    position: 'absolute',
+    top: 17,
+    height: 30,
+    width: 30,
+    backgroundColor: '#fff',
+    transform: [
+      { rotate: '45deg' },
+      { translateY: -7 },
+    ]
+  },
+  arrowWrapper: {
+    flex: 1,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  leftNav: {
+    height: 44,
+    width: 44,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  rightNav: {
+    padding: 5,
+    height: 44,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
+    marginLeft: 10,
+    justifyContent: 'space-between'
+  },
 })

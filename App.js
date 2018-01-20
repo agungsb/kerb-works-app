@@ -5,11 +5,24 @@ import DropdownModal from './components/DropdownModal';
 import Header from './components/Header';
 
 export default class App extends React.Component {
+  state = {
+    modalShown: false
+  }
+  closeModal = () => {
+    this.setState({ modalShown: false });
+  }
+  toggleModal = () => {
+    this.setState(prevState => ({
+      modalShown: !prevState.modalShown
+    }));
+  }
   render() {
+    const { modalShown } = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar hidden={true} />
-        <Header />
+        {modalShown && <DropdownModal closeModal={this.closeModal} />}
+        <Header modalShown={modalShown} toggleModal={this.toggleModal} />
       </SafeAreaView>
     );
   }
