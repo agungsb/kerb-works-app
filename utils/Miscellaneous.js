@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 export function throttle(delay, noTrailing, callback, debounceMode) {
 
   // After wrapper has stopped being called, this timeout ensures that
@@ -80,4 +82,14 @@ export function debounce(delay, fn) {
       fn.apply(context, args);
     }, delay);
   };
+}
+
+export function isIphoneX() {
+  let dimen = Dimensions.get("window");
+  return (
+    Platform.OS === "ios" &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (dimen.height === 812 || dimen.width === 812)
+  );
 }

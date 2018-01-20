@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback, Platform } from 'react-native';
 import Icon from './Icon';
-import { debounce } from './../utils/DebounceThrottle';
+import { debounce, isIphoneX } from './../utils/Miscellaneous';
 
 export default class DropdownModal extends React.Component {
   state = {
@@ -80,21 +80,23 @@ export default class DropdownModal extends React.Component {
                 onChangeText={this.onChangeText}
                 value={this.state.keyword}
               />
-              <TouchableOpacity
-                onPress={this.clearSearchBox}
-                style={{
-                  position: 'absolute',
-                  top: 12.5,
-                  right: 15
-                }}>
-                <Icon
-                  source={require('./../assets/icons8-PlusMath-2.png')}
-                  resizeMode="contain"
+              {keyword !== '' &&
+                <TouchableOpacity
+                  onPress={this.clearSearchBox}
                   style={{
-                    width: 18,
-                    height: 18
-                  }} />
-              </TouchableOpacity>
+                    position: 'absolute',
+                    top: 12.5,
+                    right: 15
+                  }}>
+                  <Icon
+                    source={require('./../assets/icons8-PlusMath-2.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: 18,
+                      height: 18
+                    }} />
+                </TouchableOpacity>
+              }
             </View>
             <View style={{ marginTop: this.state.results.length > 0 ? 10 : 0 }}>
               <FlatList
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     backgroundColor: 'transparent',
     position: 'absolute',
-    top: 10,
+    top: 0,
     bottom: 0,
     left: 0,
     right: 0,
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fff',
     padding: 18,
-    top: 70,
+    top: isIphoneX() ? 122 : 80,
     left: 10,
     right: 10,
   },
@@ -152,10 +154,18 @@ const styles = StyleSheet.create({
     shadowRadius: Platform.OS === 'android' ? 0 : 1,
     elevation: Platform.OS === 'android' ? 0 : 1,
   },
+  arrowWrapper: {
+    backgroundColor: 'transparent',
+    top: 10,
+    flex: 1,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   arrow: {
     zIndex: 10000,
     position: 'absolute',
-    top: 17,
+    top: isIphoneX() ? 61 : 17,
     height: 30,
     width: 30,
     backgroundColor: '#fff',
@@ -163,12 +173,6 @@ const styles = StyleSheet.create({
       { rotate: '45deg' },
       { translateY: -7 },
     ]
-  },
-  arrowWrapper: {
-    flex: 1,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   leftNav: {
     height: 44,
